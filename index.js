@@ -1,32 +1,59 @@
+const express = require("express");
+const app = express();
+const port = 8080;
 
-const express = require('express')
-const app = express()
-const port = 8080
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
-app.get('/', (req, res) => {
+app.get("/lag-elo", (req, res) => {
+  const NB_RANDOM_EVENT = 500;
+  const NB_STATIC_EVENT = 400;
+  const TIME_BETWEEN_EVENTS = 500;
 
-    //let data = [];
-    // for(let i = 1704895901; i< 1704895901; i=i+86,400){
-    //     data.push({
-    //         "date": i,
-    //         "value": 10,
-    //     });
-    // }
+  const now = Date.now();
+  const data = Array(NB_RANDOM_EVENT)
+    .fill(0)
+    .map((_, i) => ({
+      timestamp:
+        now - NB_STATIC_EVENT * TIME_BETWEEN_EVENTS - TIME_BETWEEN_EVENTS * i,
+      value: getRandomInt(15, 25),
+    }))
+    .concat(
+      Array(NB_STATIC_EVENT)
+        .fill(0)
+        .map((_, i) => ({
+          timestamp: now - TIME_BETWEEN_EVENTS * i,
+          value: 40,
+        }))
+    );
+  res.send(data);
+});
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-      }
-      
-      let random_data = Array(500).fill(0).map((_, i) => ({ timestamp: 1715350291 + i, value: getRandomInt(40) }))
-      let cieling_data = Array(100).fill(0).map((_, i) => ({ timestamp: 1715350791 + i, value: 50 }))
-      
-      let data = [...random_data, ...cieling_data]
+app.get("/logs-error", (req, res) => {
+  const NB_RANDOM_EVENT = 500;
+  const NB_STATIC_EVENT = 100;
+  const TIME_BETWEEN_EVENTS = 20000;
 
-  res.send(
-    data
-  )
-})
+  const now = Date.now();
+  const data = Array(NB_RANDOM_EVENT)
+    .fill(0)
+    .map((_, i) => ({
+      timestamp:
+        now - NB_STATIC_EVENT * TIME_BETWEEN_EVENTS - TIME_BETWEEN_EVENTS * i,
+      value: getRandomInt(5, 10),
+    }))
+    .concat(
+      Array(NB_STATIC_EVENT)
+        .fill(0)
+        .map((_, i) => ({
+          timestamp: now - TIME_BETWEEN_EVENTS * i,
+          value: 0,
+        }))
+    );
+  res.send(data);
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
