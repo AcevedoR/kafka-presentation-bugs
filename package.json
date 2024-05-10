@@ -1,0 +1,14 @@
+{
+  "name": "kafka-presentation-bugs",
+  "version": "1.0.0",
+  "description": "from https://github.com/docker/awesome-compose/tree/master/prometheus-grafana",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
