@@ -65,6 +65,28 @@ app.get("/lag-descend-pas", (req, res) => {
   res.send(data);
 });
 
+app.get("/consumer-not-working", (req, res) => {
+  const now = Date.now();
+  const data = Array(10000)
+    .fill(0)
+    .map((_, i) => ({
+      timestamp: now - 1000 * i,
+      value: 0,
+    }));
+  res.send(data);
+});
+
+app.get("/consumer-working", (req, res) => {
+  const now = Date.now();
+  const data = Array(10000)
+    .fill(0)
+    .map((_, i) => ({
+      timestamp: now - 1000 * i,
+      value: 1000 / Math.log10(101) * Math.log10(101 - i),
+    }));
+  res.send(data);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
